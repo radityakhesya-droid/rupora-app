@@ -41,7 +41,7 @@ export function HomeDashboardView() {
   return (
     <div className="space-y-6 w-full min-w-0 max-w-full">
       <header className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#172A3A] text-sm font-bold text-white">
             {user.avatarInitials}
           </div>
