@@ -67,9 +67,9 @@ export default function RuporaPage() {
   }, 0);
 
   return (
-    <div className="flex min-h-dvh bg-[#F3F5F9] dark:bg-[#0E1621]">
+    <div className="flex min-h-dvh bg-[#F3F5F9] dark:bg-[#0E1621] w-full max-w-full min-w-0 overflow-x-hidden">
       <Sidebar />
-      <main className="flex-1 pb-24 lg:pb-10 w-full min-w-0 max-w-full overflow-x-hidden">
+      <main className="flex-1 pb-24 lg:pb-10 min-w-0 w-full max-w-full overflow-x-hidden">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
           {activePage === 'home' && <HomeDashboardView />}
 
