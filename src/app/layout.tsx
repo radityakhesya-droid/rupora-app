@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Manrope, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { RuporaProvider } from '@/context/RuporaContext';
+import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' });
@@ -22,8 +23,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id" className={`${inter.variable} ${manrope.variable} ${jakarta.variable}`}>
-      <body className="antialiased selection:bg-[#EAF1FF] selection:text-[#356DFF] overflow-x-hidden antialiased">
+      <body className="min-w-0 w-full max-w-full overflow-x-hidden antialiased selection:bg-[#EAF1FF] selection:text-[#356DFF]">
         <RuporaProvider>{children}</RuporaProvider>
+        <ServiceWorkerRegister />
       </body>
     </html>
   );

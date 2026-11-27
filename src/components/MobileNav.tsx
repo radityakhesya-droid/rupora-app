@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { LayoutGrid, Compass, Briefcase, Trophy, User } from 'lucide-react';
-import { useRupora, ActivePage } from '@/context/RuporaContext';
+import { useRupora } from '@/context/RuporaContext';
+import { PageRoute } from '@/types/market';
 
-const NAV_ITEMS: { id: ActivePage; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-  { id: 'overview', label: 'Home', icon: LayoutGrid },
+const NAV_ITEMS: { id: PageRoute; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+  { id: 'home', label: 'Home', icon: LayoutGrid },
   { id: 'market', label: 'Market', icon: Compass },
   { id: 'portfolio', label: 'Portfolio', icon: Briefcase },
   { id: 'leaderboard', label: 'Rank', icon: Trophy },

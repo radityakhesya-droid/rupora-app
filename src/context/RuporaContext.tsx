@@ -47,6 +47,7 @@ interface RuporaContextValue {
   logoutDemo: () => void;
   toggleWatchlist: (ticker: string) => void;
   simulateOrder: (ticker: string, side: 'BUY' | 'SELL', quantity: number) => boolean;
+  simulateMarketTick: () => void;
   addCashBalance: (amount: number, reason?: string) => void;
   markAllNotificationsRead: () => void;
   updateProfile: (name: string, email: string) => void;
@@ -178,23 +179,32 @@ export function RuporaProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('rupora_theme', theme);
   }, [theme, hydrated]);
 
+  const tickMarket = () => {
+    setAssets((prev) =>
+      prev.map((item) => {
+        const swing = (Math.random() - 0.49) * 0.004;
+        const nextPrice = Math.max(10, Math.round(item.price * (1 + swing)));
+        const next1D = [...item.history['1D'].slice(1), nextPrice];
+        return {
+          ...item,
+          price: nextPrice,
+          history: { ...item.history, '1D': next1D },
+        };
+      })
+    );
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setAssets((prev) =>
-        prev.map((item) => {
-          const swing = (Math.random() - 0.49) * 0.004;
-          const nextPrice = Math.max(10, Math.round(item.price * (1 + swing)));
-          const next1D = [...item.history['1D'].slice(1), nextPrice];
-          return {
-            ...item,
-            price: nextPrice,
-            history: { ...item.history, '1D': next1D },
-          };
-        })
-      );
+      tickMarket();
     }, 3500);
     return () => clearInterval(interval);
   }, []);
+
+  const simulateMarketTick = () => {
+    tickMarket();
+    showToast('Harga pasar diperbarui');
+  };
 
   const addCashBalance = (amount: number, reason = 'Penambahan saldo') => {
     if (amount <= 0) return;
@@ -487,6 +497,7 @@ export function RuporaProvider({ children }: { children: React.ReactNode }) {
       logoutDemo,
       toggleWatchlist,
       simulateOrder,
+      simulateMarketTick,
       addCashBalance,
       markAllNotificationsRead,
       updateProfile,

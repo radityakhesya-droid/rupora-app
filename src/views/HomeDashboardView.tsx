@@ -92,14 +92,14 @@ export function HomeDashboardView() {
         </button>
       </div>
 
-      {/* Kartu Biru Total Nilai Portofolio (dipotong rapi 2x2 agar tidak melebar ke kanan) */}
+      {/* Kartu Biru Total Nilai Portofolio (2x2 di mobile, flex-wrap di desktop) */}
       <section className="w-full max-w-full min-w-0 overflow-hidden rounded-[22px] bg-gradient-to-br from-[#356DFF] via-[#2558E8] to-[#1D4ED8] p-4 sm:p-6 text-white shadow-md">
         <p className="text-[11px] font-medium text-blue-100">Total Nilai Portofolio</p>
-        <p className="mt-1 truncate font-display text-[26px] sm:text-4xl font-bold tracking-tight tabular-nums">
+        <p className="mt-1 max-w-full break-words font-display text-[clamp(1.375rem,6.2vw,2.25rem)] font-bold leading-tight tracking-tight tabular-nums">
           {formatIDR(totalPortfolio)}
         </p>
 
-        <div className="mt-3.5 grid grid-cols-2 gap-2 border-t border-white/15 pt-3 text-[11px] sm:flex sm:flex-wrap sm:items-center sm:gap-x-5">
+        <div className="mt-3.5 grid grid-cols-2 gap-x-3 gap-y-2.5 border-t border-white/15 pt-3 text-[11px] sm:flex sm:flex-wrap sm:items-center sm:gap-x-5">
           <div className="min-w-0 truncate tabular-nums">
             <span className="block text-[10px] text-blue-200 sm:inline">Perubahan hari ini: </span>
             <strong className="font-semibold text-white">
@@ -112,11 +112,11 @@ export function HomeDashboardView() {
             <strong className="font-semibold text-white">{formatPct(dailyPct)}</strong>
           </div>
           <div className="min-w-0 truncate tabular-nums">
-            <span className="block text-[10px] text-blue-200 sm:inline">Keuntungan: </span>
+            <span className="block text-[10px] text-blue-200 sm:inline">Keuntungan investasi: </span>
             <strong className="font-semibold text-emerald-300">+{formatIDR(totalGain)}</strong>
           </div>
           <div className="min-w-0 truncate tabular-nums">
-            <span className="block text-[10px] text-blue-200 sm:inline">Kerugian: </span>
+            <span className="block text-[10px] text-blue-200 sm:inline">Kerugian investasi: </span>
             <strong className="font-semibold text-rose-200">
               {totalLoss > 0 ? `-${formatIDR(totalLoss)}` : 'Rp 0'}
             </strong>
@@ -130,7 +130,7 @@ export function HomeDashboardView() {
           Today&apos;s Market
         </h2>
 
-        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+        <div className="grid w-full grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
           {todayMarketAssets.map((item) => {
             const diff = item.price - item.prevClose;
             const pct = item.prevClose > 0 ? (diff / item.prevClose) * 100 : 0;
@@ -144,10 +144,10 @@ export function HomeDashboardView() {
                 onClick={() => openStockDetail(item.ticker)}
                 className="flex w-full min-w-0 flex-col justify-between overflow-hidden rounded-2xl border border-[#E8EDF3] bg-white p-3.5 text-left shadow-2xs transition hover:border-[#356DFF]/40 dark:border-slate-800 dark:bg-slate-900"
               >
-                <div className="flex w-full items-center justify-between gap-2">
-                  <span className="text-[11px] font-bold text-[#8B95A5]">{item.ticker}</span>
+                <div className="flex w-full min-w-0 items-center justify-between gap-2">
+                  <span className="truncate text-[11px] font-bold text-[#8B95A5]">{item.ticker}</span>
                   <span
-                    className={`text-[11px] font-bold tabular-nums ${
+                    className={`shrink-0 text-[11px] font-bold tabular-nums ${
                       isPos ? 'text-[#16B981]' : 'text-[#F05A72]'
                     }`}
                   >
@@ -161,7 +161,7 @@ export function HomeDashboardView() {
                     : formatNumberID(item.price)}
                 </p>
 
-                <div className="mt-2 h-8 w-24 overflow-hidden">
+                <div className="mt-2 h-8 w-full max-w-[96px] overflow-hidden">
                   <Sparkline data={series} positive={isPos} />
                 </div>
               </button>
@@ -181,7 +181,7 @@ export function HomeDashboardView() {
           </span>
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-4">
+        <div className="grid w-full min-w-0 grid-cols-2 gap-2.5 lg:grid-cols-4">
           {highlightAssets.map((item) => {
             const diff = item.price - item.prevClose;
             const pct = item.prevClose > 0 ? (diff / item.prevClose) * 100 : 0;
@@ -192,7 +192,7 @@ export function HomeDashboardView() {
                 key={item.ticker}
                 type="button"
                 onClick={() => openStockDetail(item.ticker)}
-                className="min-w-0 overflow-hidden rounded-2xl bg-[#172A3A] p-3.5 text-left text-white shadow-2xs transition hover:bg-[#1E3548]"
+                className="block w-full min-w-0 overflow-hidden rounded-2xl bg-[#172A3A] p-3.5 text-left text-white shadow-2xs transition hover:bg-[#1E3548]"
               >
                 <div className="flex items-center justify-between gap-1">
                   <span className="truncate text-[11px] font-bold text-slate-300">
