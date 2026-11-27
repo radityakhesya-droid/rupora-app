@@ -67,7 +67,7 @@ export default function RuporaPage() {
   }, 0);
 
   return (
-    <div className="flex min-h-screen bg-[#F3F5F9] dark:bg-[#0E1621]">
+    <div className="flex min-h-dvh bg-[#F3F5F9] dark:bg-[#0E1621]">
       <Sidebar />
       <main className="flex-1 pb-24 lg:pb-10">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">

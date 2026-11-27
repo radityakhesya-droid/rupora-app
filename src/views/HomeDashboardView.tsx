@@ -84,7 +84,7 @@ export function HomeDashboardView() {
 
       <section>
         <h2 className="mb-3 font-display text-sm font-bold">Today&apos;s Market</h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:grid-cols-3 lg:grid-cols-6">
           {TODAY.map((sym) => {
             const it = assets.find((a) => a.ticker === sym);
             if (!it) return null;

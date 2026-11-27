@@ -22,7 +22,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id" className={`${inter.variable} ${manrope.variable} ${jakarta.variable}`}>
-      <body className="antialiased selection:bg-[#EAF1FF] selection:text-[#356DFF]">
+      <body className="antialiased selection:bg-[#EAF1FF] selection:text-[#356DFF] overflow-x-hidden antialiased">
         <RuporaProvider>{children}</RuporaProvider>
       </body>
     </html>
