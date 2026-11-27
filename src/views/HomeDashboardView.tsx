@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Bookmark, RefreshCw, Sparkles } from 'lucide-react';
+import { Bookmark, RefreshCw } from 'lucide-react';
 import { useRupora } from '@/context/RuporaContext';
 import { Sparkline } from '@/components/Sparkline';
 import { formatIDR, formatNumberID, formatPct } from '@/utils/formatters';
@@ -40,7 +40,7 @@ export function HomeDashboardView() {
   const totalGain = Math.max(0, netPL);
   const totalLoss = Math.abs(Math.min(0, netPL));
 
-  const todayMarketTickers = ['IHSG', 'IDX30', 'LQ45', 'USDIDR', 'GOLD', 'BTC'];
+  const todayMarketTickers = ['IHSG', 'LQ45', 'GOLD', 'IDX30', 'USDIDR', 'BTC'];
   const todayMarketAssets = todayMarketTickers
     .map((t) => assets.find((a) => a.ticker === t))
     .filter((a): a is NonNullable<typeof a> => Boolean(a));
@@ -67,9 +67,9 @@ export function HomeDashboardView() {
     .toUpperCase();
 
   return (
-    <div className="w-full min-w-0 max-w-full space-y-5 overflow-hidden">
+    <div className="w-full max-w-full min-w-0 space-y-5 overflow-x-hidden">
       {/* Header sapaan */}
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex w-full min-w-0 items-center justify-between gap-2">
         <div className="flex min-w-0 items-center gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#172A3A] text-xs font-bold text-white">
             {initials}
@@ -92,47 +92,45 @@ export function HomeDashboardView() {
         </button>
       </div>
 
-      {/* Kartu Biru Total Nilai Portofolio */}
-      <section className="w-full min-w-0 overflow-hidden rounded-[24px] bg-gradient-to-br from-[#356DFF] via-[#2558E8] to-[#1D4ED8] p-5 sm:p-6 text-white shadow-md">
-        <p className="text-xs font-medium text-blue-100">Total Nilai Portofolio</p>
-        <p className="mt-1.5 break-words font-display text-2xl sm:text-4xl font-bold tracking-tight tabular-nums">
+      {/* Kartu Biru Total Nilai Portofolio (dipotong rapi 2x2 agar tidak melebar ke kanan) */}
+      <section className="w-full max-w-full min-w-0 overflow-hidden rounded-[22px] bg-gradient-to-br from-[#356DFF] via-[#2558E8] to-[#1D4ED8] p-4 sm:p-6 text-white shadow-md">
+        <p className="text-[11px] font-medium text-blue-100">Total Nilai Portofolio</p>
+        <p className="mt-1 truncate font-display text-[26px] sm:text-4xl font-bold tracking-tight tabular-nums">
           {formatIDR(totalPortfolio)}
         </p>
 
-        <div className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2 border-t border-white/15 pt-3 text-[11px] sm:flex sm:flex-wrap sm:items-center sm:gap-x-5">
-          <span className="truncate tabular-nums">
-            <span className="text-blue-200">Perubahan hari ini: </span>
+        <div className="mt-3.5 grid grid-cols-2 gap-2 border-t border-white/15 pt-3 text-[11px] sm:flex sm:flex-wrap sm:items-center sm:gap-x-5">
+          <div className="min-w-0 truncate tabular-nums">
+            <span className="block text-[10px] text-blue-200 sm:inline">Perubahan hari ini: </span>
             <strong className="font-semibold text-white">
               {dailyChange >= 0 ? '+' : ''}
               {formatIDR(dailyChange)}
             </strong>
-          </span>
-          <span className="truncate tabular-nums">
-            <span className="text-blue-200">Persentase: </span>
+          </div>
+          <div className="min-w-0 truncate tabular-nums">
+            <span className="block text-[10px] text-blue-200 sm:inline">Persentase: </span>
             <strong className="font-semibold text-white">{formatPct(dailyPct)}</strong>
-          </span>
-          <span className="truncate tabular-nums">
-            <span className="text-blue-200">Keuntungan investasi: </span>
+          </div>
+          <div className="min-w-0 truncate tabular-nums">
+            <span className="block text-[10px] text-blue-200 sm:inline">Keuntungan: </span>
             <strong className="font-semibold text-emerald-300">+{formatIDR(totalGain)}</strong>
-          </span>
-          <span className="truncate tabular-nums">
-            <span className="text-blue-200">Kerugian investasi: </span>
+          </div>
+          <div className="min-w-0 truncate tabular-nums">
+            <span className="block text-[10px] text-blue-200 sm:inline">Kerugian: </span>
             <strong className="font-semibold text-rose-200">
               {totalLoss > 0 ? `-${formatIDR(totalLoss)}` : 'Rp 0'}
             </strong>
-          </span>
+          </div>
         </div>
       </section>
 
       {/* Today's Market */}
-      <section className="w-full min-w-0 space-y-2.5">
-        <div className="flex items-center justify-between">
-          <h2 className="font-display text-sm font-bold text-[#17212B] dark:text-white">
-            Today&apos;s Market
-          </h2>
-        </div>
+      <section className="w-full max-w-full min-w-0 space-y-2.5">
+        <h2 className="font-display text-sm font-bold text-[#17212B] dark:text-white">
+          Today&apos;s Market
+        </h2>
 
-        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
           {todayMarketAssets.map((item) => {
             const diff = item.price - item.prevClose;
             const pct = item.prevClose > 0 ? (diff / item.prevClose) * 100 : 0;
@@ -144,14 +142,12 @@ export function HomeDashboardView() {
                 key={item.ticker}
                 type="button"
                 onClick={() => openStockDetail(item.ticker)}
-                className="flex min-w-0 flex-col justify-between overflow-hidden rounded-2xl border border-[#E8EDF3] bg-white p-3.5 text-left shadow-2xs transition hover:border-[#356DFF]/40 dark:border-slate-800 dark:bg-slate-900"
+                className="flex w-full min-w-0 flex-col justify-between overflow-hidden rounded-2xl border border-[#E8EDF3] bg-white p-3.5 text-left shadow-2xs transition hover:border-[#356DFF]/40 dark:border-slate-800 dark:bg-slate-900"
               >
-                <div className="flex items-center justify-between gap-1.5">
-                  <span className="truncate text-[11px] font-bold text-[#8B95A5]">
-                    {item.ticker}
-                  </span>
+                <div className="flex w-full items-center justify-between gap-2">
+                  <span className="text-[11px] font-bold text-[#8B95A5]">{item.ticker}</span>
                   <span
-                    className={`shrink-0 text-[11px] font-bold tabular-nums ${
+                    className={`text-[11px] font-bold tabular-nums ${
                       isPos ? 'text-[#16B981]' : 'text-[#F05A72]'
                     }`}
                   >
@@ -159,13 +155,13 @@ export function HomeDashboardView() {
                   </span>
                 </div>
 
-                <p className="mt-1 truncate text-xs sm:text-sm font-bold text-[#17212B] dark:text-white tabular-nums">
+                <p className="mt-1 truncate text-sm font-bold text-[#17212B] dark:text-white tabular-nums">
                   {item.category === 'Komoditas' || item.category === 'Kripto'
                     ? formatIDR(item.price)
                     : formatNumberID(item.price)}
                 </p>
 
-                <div className="mt-2 h-8 w-full overflow-hidden">
+                <div className="mt-2 h-8 w-24 overflow-hidden">
                   <Sparkline data={series} positive={isPos} />
                 </div>
               </button>
@@ -175,13 +171,12 @@ export function HomeDashboardView() {
       </section>
 
       {/* Market Highlights */}
-      <section className="w-full min-w-0 space-y-2.5">
+      <section className="w-full max-w-full min-w-0 space-y-2.5">
         <div className="flex items-center justify-between gap-2">
           <h2 className="font-display text-sm font-bold text-[#17212B] dark:text-white">
             Market Highlights
           </h2>
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold tracking-wider text-[#356DFF] uppercase">
-            <Sparkles className="h-3 w-3" />
+          <span className="text-[10px] font-bold tracking-wider text-[#356DFF] uppercase">
             MARKET PULSE
           </span>
         </div>
@@ -199,7 +194,7 @@ export function HomeDashboardView() {
                 onClick={() => openStockDetail(item.ticker)}
                 className="min-w-0 overflow-hidden rounded-2xl bg-[#172A3A] p-3.5 text-left text-white shadow-2xs transition hover:bg-[#1E3548]"
               >
-                <div className="flex items-center justify-between gap-1.5">
+                <div className="flex items-center justify-between gap-1">
                   <span className="truncate text-[11px] font-bold text-slate-300">
                     {item.ticker}
                   </span>
@@ -225,7 +220,7 @@ export function HomeDashboardView() {
       </section>
 
       {/* Popular Stocks */}
-      <section className="w-full min-w-0 overflow-hidden rounded-[24px] border border-[#E8EDF3] bg-white p-4 sm:p-5 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
+      <section className="w-full max-w-full min-w-0 overflow-hidden rounded-[22px] border border-[#E8EDF3] bg-white p-4 sm:p-5 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
         <div className="flex items-center justify-between gap-2">
           <h2 className="font-display text-sm font-bold text-[#17212B] dark:text-white">
             Popular Stocks
@@ -239,7 +234,7 @@ export function HomeDashboardView() {
           </button>
         </div>
 
-        <div className="mt-3 divide-y divide-[#E8EDF3] dark:divide-slate-800">
+        <div className="mt-2 divide-y divide-[#E8EDF3] dark:divide-slate-800">
           {popularStocks.map((stock) => {
             const diff = stock.price - stock.prevClose;
             const pct = stock.prevClose > 0 ? (diff / stock.prevClose) * 100 : 0;
@@ -250,16 +245,16 @@ export function HomeDashboardView() {
               <div
                 key={stock.ticker}
                 onClick={() => openStockDetail(stock.ticker)}
-                className="flex min-w-0 cursor-pointer items-center justify-between gap-2 py-3 transition hover:bg-[#F3F5F9]/60 dark:hover:bg-slate-800/50"
+                className="flex w-full min-w-0 cursor-pointer items-center justify-between gap-2 py-3 transition hover:bg-[#F3F5F9]/60 dark:hover:bg-slate-800/50"
               >
-                <div className="flex min-w-0 items-center gap-3">
+                <div className="flex min-w-0 flex-1 items-center gap-2.5">
                   <div
                     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-[11px] font-bold text-white"
                     style={{ backgroundColor: stock.color }}
                   >
                     {stock.ticker.slice(0, 2)}
                   </div>
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <p className="truncate text-xs font-bold text-[#17212B] dark:text-white">
                       {stock.ticker}
                     </p>
@@ -267,7 +262,7 @@ export function HomeDashboardView() {
                   </div>
                 </div>
 
-                <div className="flex shrink-0 items-center gap-2.5">
+                <div className="flex shrink-0 items-center gap-2">
                   <div className="text-right tabular-nums">
                     <p className="text-xs font-bold text-[#17212B] dark:text-white">
                       {formatIDR(stock.price)}
