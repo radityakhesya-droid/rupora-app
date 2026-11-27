@@ -39,7 +39,7 @@ export function HomeDashboardView() {
   const unread = notifications.filter((n) => n.unread).length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full min-w-0 max-w-full">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#172A3A] text-sm font-bold text-white">
@@ -63,7 +63,7 @@ export function HomeDashboardView() {
 
       <section className="rounded-[22px] bg-gradient-to-br from-[#356DFF] to-[#1E44B8] p-6 text-white">
         <p className="text-xs text-blue-100">Total Nilai Portofolio</p>
-        <p className="mt-1.5 font-display text-3xl sm:text-4xl font-bold tabular-nums">
+        <p className="mt-1.5 font-display text-2xl sm:text-2xl sm:text-4xl font-bold tabular-nums">
           {formatIDR(totalVal)}
         </p>
         <div className="mt-4 flex flex-wrap gap-5 border-t border-white/15 pt-4 text-xs tabular-nums">
@@ -131,7 +131,7 @@ export function HomeDashboardView() {
               <button
                 key={sym}
                 onClick={() => openStockDetail(sym)}
-                className="min-w-[230px] flex-1 rounded-[22px] bg-[#172A3A] p-4 text-left text-white"
+                className="min-w-0 flex-1 rounded-[22px] bg-[#172A3A] p-4 text-left text-white"
               >
                 <div className="flex justify-between text-xs">
                   <span className="font-semibold">{it.ticker}</span>
